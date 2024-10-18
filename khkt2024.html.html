@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đánh giá Chất lượng Giấc ngủ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Yanone+Kaffeesatz&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background-image: url('https://i.pinimg.com/1200x/1a/ba/73/1aba73d7d0cf7299158082fab3d8bfa3.jpg');
+            background-size: cover;
+            color: #ffffff;
+            font-family: 'Yanone Kaffeesatz', sans-serif;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 2em;
+        }
+        h3 {
+            text-align: center;
+            font-size: 4em;
+            font-style: italic;
+            color: #FFD700;
+        }
+        h2 {
+            text-align: center;
+        }
+        table {
+            margin: 0 auto;
+            border-collapse: collapse;
+            width: 100%;
+            max-width: 600px;
+        }
+        th, td {
+            border: 1px solid #ffffff;
+            padding: 10px;
+            text-align: center;
+        }
+        button {
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        canvas {
+            margin: 20px auto;
+            display: block;
+        }
+        #adjustSleepContainer {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.2em;
+        }
+        #sleepTips {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            font-size: 1.5em;
+            font-weight: bold;
+            border: 2px solid #ffffff;
+            color: #FFD700;
+        }
+        ul {
+            list-style-type: square;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h3>For a better sleeping routine</h3>
+        <h1>Đánh giá Chất lượng Giấc ngủ</h1>
+        
+        <h2>Ghi lại thời gian ngủ hàng ngày</h2>
+        <form id="sleepLogForm">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Thứ</th>
+                        <th>Thời gian ngủ (giờ)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Thứ 2</td><td><input type="number" min="0" max="24" step="0.1" required></td></tr>
+                    <tr><td>Thứ 3</td><td><input type="number" min="0" max="24" step="0.1" required></td></tr>
+                    <tr><td>Thứ 4</td><td><input type="number" min="0" max="24" step="0.1" required></td></tr>
+                    <tr><td>Thứ 5</td><td><input type="number" min="0" max="24" step="0.1" required></td></tr>
+                    <tr><td>Thứ 6</td><td><input type="number" min="0" max="24" step="0.1" required></td></tr>
+                    <tr><td>Thứ 7</td><td><input type="number" min="0" max="24" step="0.1" required></td></tr>
+                    <tr><td>Chủ nhật</td><td><input type="number" min="0" max="24" step="0.1" required></td></tr>
+                </tbody>
+            </table>
+            <button type="submit">Tính điểm giấc ngủ</button>
+        </form>
+
+        <h2>Kết quả</h2>
+        <div id="sleepScoreResult"></div>
+        <div id="sundayAlert"></div>
+        <div id="sleepWarnings"></div>
+
+        <h2>Xu hướng Giấc Ngủ</h2>
+        <canvas id="sleepTrendChart" width="400" height="200"></canvas>
+        <canvas id="weeklySleepChart" width="400" height="200"></canvas>
+ <h2>Công cụ Điều chỉnh Giấc Ngủ</h2>
+ <div id="adjustSleepContainer">
+    <p>Hướng dẫn sử dụng:</p>
+    <p>Bước 1: Nhập thời gian ngủ và thức dậy của bạn theo khung giờ từ (0-12) am/pm.</p>
+    <p>Bước 2: Làm theo gợi ý ở phần dưới và tạo dựng thói quen ngủ.</p>
+    <p>Bước 3: Tự đánh giá và theo dõi tình trạng giấc ngủ thông qua dữ liệu đã nhập.</p>
+     <form id="adjustSleepForm">
+        <label for="sleepStart">Giờ ngủ:</label>
+        <input type="time" id="sleepStart" required>
+        <label for="wakeTime">Giờ thức dậy:</label>
+        <input type="time" id="wakeTime" required>
+        <button type="submit">Điều chỉnh giấc ngủ</button>
+    </form>
+    <div id="adjustedSleepResult"></div>
+</div>
+        <h2>Cách để có Giấc Ngủ Lành Mạnh</h2>
+        <div id="sleepTips">
+            <ul>
+                <li>Dừng sử dụng điện thoại di động 90 phút trước khi đi ngủ.</li>
+                <li>Không uống cà phê sau 2 giờ chiều.</li>
+                <li>Hoàn thành công việc 30 phút trước khi đi ngủ.</li>
+                <li>Giữ đầu óc thong thả không suy nghĩ nhiều.</li>
+                <li>Tạo thói quen ngủ trước 23h.</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const sleepData = JSON.parse(localStorage.getItem('sleepData')) || [];
+
+        document.getElementById('sleepLogForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const inputs = document.querySelectorAll('tbody input[type="number"]');
+            let totalScore = 0;
+            let validDays = 0;
+            let sundayHours = parseFloat(inputs[6].value);
+            const weekdayHours = Array.from(inputs).slice(0, 6).map(input => parseFloat(input.value));
+            let warnings = [];
+
+            inputs.forEach((input, index) => {
+                const hours = parseFloat(input.value);
+                let score;
+
+                if (hours > 8) {
+                    score = 10 - (hours - 8) * 1.25; 
+                    if (index !== 6) warnings.push("Ngủ bù quá nhiều có nguy cơ làm ảnh hưởng đến đồng hồ sinh học của bạn, hãy điều chỉnh lại giấc ngủ của mình.");
+                } else {
+                    score = hours >= 7 ? (index === 6 ? 10 : 8) : (hours >= 6 ? 6.25 : (hours >= 5 ? 4.375 : (hours >= 4 ? 3.5 : 2)));
+                }
+
+                totalScore += score;
+                validDays++;
+            });
+
+            const averageScore = totalScore / validDays;
+            const resultDiv = document.getElementById('sleepScoreResult');
+            let conclusion;
+
+            if (averageScore > 8) {
+                conclusion = "Giấc ngủ bạn khá ổn, hãy tiếp tục duy trì!";
+            } else if (averageScore >= 6) {
+                conclusion = "Bạn cần cải thiện tình trạng giấc ngủ của mình!";
+            } else {
+                conclusion = "Bạn phải thay đổi lịch trình sinh hoạt ngay lập tức! Tình trạng giấc ngủ của bạn rất đáng báo động!";
+            }
+
+            resultDiv.innerHTML = 
+                `Điểm trung bình: ${averageScore.toFixed(2)} <br>
+                Kết luận: ${conclusion}
+            `;
+
+            const sundayAlert = document.getElementById('sundayAlert');
+            if (sundayHours > 8) {
+                sundayAlert.innerHTML = "Cảnh báo: Giấc ngủ vào Chủ nhật quá nhiều có thể gây mất cân bằng giấc ngủ giữa các ngày.";
+            } else {
+                sundayAlert.innerHTML = "";
+            }
+
+            const sleepWarningsDiv = document.getElementById('sleepWarnings');
+            const lowSleepDays = [...inputs].filter(input => parseFloat(input.value) < 6).length;
+            if (lowSleepDays > 4) {
+                warnings.push("Bạn ngủ quá ít, hãy điều chỉnh lại giờ giấc sinh hoạt.");
+            }
+
+            sleepData.push({
+                week: `Tuần ${Math.ceil(new Date().getDate() / 7)}`,
+                scores: Array.from(inputs).map(input => parseFloat(input.value)),
+                averageScore: averageScore
+            });
+            localStorage.setItem('sleepData', JSON.stringify(sleepData));
+            renderSleepTrendChart();
+            renderWeeklySleepChart();
+
+            sleepWarningsDiv.innerHTML = warnings.length > 0 ? warnings.join('<br>') : '';
+        });
+
+        function renderSleepTrendChart() {
+            const ctx = document.getElementById('sleepTrendChart').getContext('2d');
+            const latestEntry = sleepData[sleepData.length - 1];
+            const labels = ['Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy', 'Chủ Nhật'];
+            const data = latestEntry.scores;
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Số giờ ngủ',
+                        data: data,
+                        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 10,
+                            title: {
+                                display: true,
+                                text: 'Thời gian ngủ(h)' // Đơn vị trục Y
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderWeeklySleepChart() {
+            const ctx = document.getElementById('weeklySleepChart').getContext('2d');
+            const weeks = sleepData.map(entry => entry.week);
+            const avgScores = sleepData.map(entry => entry.averageScore);
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: weeks,
+                    datasets: [{
+                        label: 'Điểm trung bình Giấc Ngủ',
+                        data: avgScores,
+                        fill: false,
+                        borderColor: 'rgba(153, 102, 255, 1)',
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 10,
+                            title: {
+                                display: true,
+                                text: 'Điểm số' // Đơn vị trục Y
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        document.getElementById('adjustSleepForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const sleepStart = document.getElementById('sleepStart').value;
+           const wakeTime = document.getElementById('wakeTime').value;
+
+           const sleepStartDate = new Date(`1970-01-01T${sleepStart}:00`);
+           const wakeTimeDate = new Date(`1970-01-01T${wakeTime}:00`);
+
+          // Nếu giờ thức dậy nhỏ hơn hoặc bằng giờ ngủ, coi như là hôm sau
+          if (wakeTimeDate <= sleepStartDate) {
+           wakeTimeDate.setDate(wakeTimeDate.getDate() + 1);
+}
+
+const totalSleepHours = (wakeTimeDate - sleepStartDate) / (1000 * 60 * 60);
+
+
+            let adjustedSleepResult = `Bạn ngủ từ ${sleepStart} đến ${wakeTime}, tổng thời gian ngủ là ${totalSleepHours.toFixed(2)} giờ.`; 
+            
+            if (totalSleepHours >= 6 && totalSleepHours <= 7) {
+                adjustedSleepResult += ` Đề xuất ngủ trưa 1 tiếng từ 12h đến 13h và đi ngủ lúc 22h.`;
+                adjustedSleepResult += ` Thời gian dậy: ${wakeTime}.`;
+            } else if (totalSleepHours > 6) {
+                adjustedSleepResult += ` Đề xuất ngủ trưa 1 tiếng từ 12h đến 13h và đi ngủ lúc 23h.`;
+                adjustedSleepResult += ` Thời gian dậy: ${wakeTime}.`;
+            } else if (totalSleepHours < 6) {
+                adjustedSleepResult += ` Đề xuất ngủ trưa 1 tiếng từ 12h đến 13h và đi ngủ lúc 22h.`;
+                adjustedSleepResult += ` Thời gian dậy: ${wakeTime}.`;
+                adjustedSleepResult += ` <strong>Bạn cần cải thiện giấc ngủ của mình ngay bây giờ!</strong>`;
+            }
+
+            const adjustedSleepResultDiv = document.getElementById('adjustedSleepResult');
+            adjustedSleepResultDiv.innerHTML = adjustedSleepResult;
+        });
+    </script>
+</body>
+</html>
